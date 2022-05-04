@@ -2,3 +2,4 @@ node_modules
 INSTRUCTIONS.md
 instructions-assets
 .DS_Store
+.env
