@@ -15,14 +15,22 @@ Category.hasMany(Product, {
 });
 // Products belongToMany Tags (through ProductTag)
 Product.belongsToMany(Tag, {
-  foreignKey: 'ProductTag',
-  onDelete: 'CASCADE',
+  through: {
+    model: 'ProductTag',
+    onDelete: 'CASCADE',
+    unique: false,
+  },
+  foreignKey: 'product_id'
 });
 
 // Tags belongToMany Products (through ProductTag)
 Tag.belongsToMany(Product, {
-  foreignKey: 'ProductTag',
-  onDelete: 'CASCADE',
+  through: {
+    model: 'ProductTag',
+    onDelete: 'CASCADE',
+    unique: false,
+  },
+  foreignKey: 'tag_id',
 });
 
 module.exports = {
