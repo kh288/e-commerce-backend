@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   // be sure to include its associated Product data
   try {
     const tagData = await Tag.findAll({
-      include: [{ model: Tag }]
+      include: [{ model: Product }]
     });
     res.status(200).json(tagData);
   } catch (err) {
@@ -20,8 +20,11 @@ router.get('/:id', (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
   try {
-    const tagData = await Tag.findByPk(req.params.id, {
-      include: [{model: Tag}]
+    const tagData = await Tag.findByPk({
+      where: {
+        id: req.params.id,
+      },
+      include: [{model: Product}]
     });
 
     if (!locationData) {
@@ -36,14 +39,44 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new tag
+  try {
+    const tagData = await Tag.create({
+      tag_name: req.body.tag_name,
+    });
+    res.status(200).json(tagData);
+  } catch {
+    res.status(500).json(err);
+  }
 });
 
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
+  try {
+    const tagData = await Tag.update({
+      tag_name: req.body.tag_name
+    },{
+      where: {
+        id: req.params.id
+      },
+    });
+    res.status(200).json(tagData);
+  } catch {
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
+  try {
+    const tagData = await Tag.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.status(200).json(tagData);
+  } catch {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
